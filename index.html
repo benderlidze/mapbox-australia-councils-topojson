@@ -68,6 +68,7 @@
                 states.features.forEach((el, key) => {
                     el.id = key
                     el.properties.id = key
+                    el.properties.color = '#' + Math.floor(Math.random() * 16777215).toString(16);
                 });
                 mainData.states.push(...states.features)
                 map.getSource('states').setData(states)
@@ -84,7 +85,7 @@
                 'source': 'states',
                 'layout': {},
                 'paint': {
-                    'fill-color': '#627BC1',
+                    'fill-color': ['get', 'color'],
                     'fill-opacity': [
                         'case',
                         ['boolean', ['feature-state', 'hover'], false],
