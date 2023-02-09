@@ -10,6 +10,13 @@
     <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
 
+    <!-- Load the `mapbox-gl-geocoder` plugin. -->
+    <script
+        src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
+        type="text/css">
+
     <style>
         body {
             margin: 0;
@@ -56,10 +63,18 @@
             projection: "mercator"
         });
 
+        // Add the control to the map.
+        map.addControl(
+            new MapboxGeocoder({
+                accessToken: mapboxgl.accessToken,
+                mapboxgl: mapboxgl,
+
+            })
+        );
+
         map.on('load', () => {
             Promise.all([
                 fetch('georef-australia-local-government-area-millesime.topojson').then(d => d.json()),
-                // fetch('Statewide_Precincts.json').then(d => d.json()),
             ]).then(data => {
 
                 console.log('data', data);
