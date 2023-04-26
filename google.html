@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700&display=swap">
+
+
+    <style>
+        body {
+            padding: 0px;
+            margin: 0px;
+            font-family: "Libre Franklin", Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+            transition: 0.5s;
+        }
+
+        .sidebar .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        .openbtn {
+            cursor: pointer;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+        }
+
+        .openbtn:hover {
+            background-color: #444;
+        }
+
+        #main {
+            transition: margin-left .5s;
+        }
+
+        .title {
+            padding: 20px 10px;
+            background-color: #02499b;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .title>i {
+            padding-right: 30px;
+        }
+
+        .img {
+            height: 200px;
+            max-height: 200px;
+            overflow: hidden;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .descr {
+            font-family: "Libre Franklin";
+            padding: 10px;
+        }
+
+        /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+        @media screen and (max-height: 450px) {
+            .sidebar {}
+        }
+
+
+        .gg-arrow-left {
+            box-sizing: border-box;
+            position: relative;
+            display: block;
+            transform: scale(var(--ggs, 1));
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+
+        }
+
+        .gg-arrow-left::after,
+        .gg-arrow-left::before {
+            content: "";
+            display: block;
+            box-sizing: border-box;
+            position: absolute;
+            left: 3px
+        }
+
+        .gg-arrow-left::after {
+            width: 8px;
+            height: 8px;
+            border-bottom: 2px solid;
+            border-left: 2px solid;
+            transform: rotate(45deg);
+            bottom: 7px
+        }
+
+        .gg-arrow-left::before {
+            width: 16px;
+            height: 2px;
+            bottom: 10px;
+            background: currentColor
+        }
+
+        .images {
+            width: 100%;
+            max-height: 120px;
+            overflow: hidden;
+            display: flex;
+            align-content: center;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .bottom-left {
+            position: absolute;
+            bottom: 8px;
+            left: 16px;
+            color: white
+        }
+
+        h3 {
+            font-family: "Libre Franklin";
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="mySidebar" class="sidebar">
+        <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a> -->
+
+    </div>
+
+    <div id="main">
+        <!-- <button class="openbtn" onclick="openNav()">☰ Open Sidebar</button> -->
+        <div id="map" style="width: 100%; height: 100vh; "></div>
+    </div>
+
+    <script>
+
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 37.7749, lng: -122.4194 },
+                zoom: 8
+            });
+
+            var layer = new google.maps.KmlLayer({
+                url: 'https://www.google.com/maps/d/kml?mid=1oaWtLHjXpyZYdj9tOGbR7j4YPmO0X5_R&forcekml=1',
+                map: map
+            });
+
+            console.log('layer', layer);
+
+
+            // var layer = new google.maps.Data({ map: map });
+            // layer.loadGeoJson('https://www.google.com/maps/d/kml?mid=1oaWtLHjXpyZYdj9tOGbR7j4YPmO0X5_R&forcekml=1');
+            // layer.addListener('click', function (event) {
+            //     console.log('Clicked on a feature:', event);
+            // });
+        }
+
+    </script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoyZ_yVsI5N8KhjbWRyQeme1Pfz2DRYYc&callback=initMap&libraries=places,drawing,geometry&v=weekly"
+        async></script>
+
+</body>
