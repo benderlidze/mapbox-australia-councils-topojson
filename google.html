@@ -7,6 +7,7 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700&display=swap">
 
+    <script src="https://unpkg.com/@tmcw/togeojson@5.6.0/dist/togeojson.umd.js"></script>
 
     <style>
         body {
@@ -148,42 +149,32 @@
 
 <body>
 
-    <div id="mySidebar" class="sidebar">
-        <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a> -->
 
-    </div>
-
-    <div id="main">
-        <!-- <button class="openbtn" onclick="openNav()">☰ Open Sidebar</button> -->
-        <div id="map" style="width: 100%; height: 100vh; "></div>
-    </div>
 
     <script>
 
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: 37.7749, lng: -122.4194 },
-                zoom: 8
+        let s;
+        fetch("https://www.google.com/maps/d/kml?mid=1oaWtLHjXpyZYdj9tOGbR7j4YPmO0X5_R&forcekml=1")
+            .then(response => response.text())
+            .then(data => {
+
+                let dom = new DOMParser().parseFromString(data, "application/xml");
+                let error = dom.querySelector("parsererror");
+                if (error) throw new Error(error.innerText);
+
+                s = toGeoJSON.kmlGen(dom)
+                console.log('s', s);
+            })
+
+        fetch("https://www.google.com/maps/d/kml?mid=1oaWtLHjXpyZYdj9tOGbR7j4YPmO0X5_R&forcekml=1")
+            .then(function (response) {
+                return response.text();
+            })
+            .then(function (xml) {
+                console.log(toGeoJSON.kml(new DOMParser().parseFromString(xml, "text/xml")));
             });
 
-            var layer = new google.maps.KmlLayer({
-                url: 'https://www.google.com/maps/d/kml?mid=1oaWtLHjXpyZYdj9tOGbR7j4YPmO0X5_R&forcekml=1',
-                map: map
-            });
-
-            console.log('layer', layer);
-
-
-            // var layer = new google.maps.Data({ map: map });
-            // layer.loadGeoJson('https://www.google.com/maps/d/kml?mid=1oaWtLHjXpyZYdj9tOGbR7j4YPmO0X5_R&forcekml=1');
-            // layer.addListener('click', function (event) {
-            //     console.log('Clicked on a feature:', event);
-            // });
-        }
 
     </script>
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoyZ_yVsI5N8KhjbWRyQeme1Pfz2DRYYc&callback=initMap&libraries=places,drawing,geometry&v=weekly"
-        async></script>
 
 </body>
